@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ManagementRoleController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TenantsController;
 use Illuminate\Http\Request;
@@ -34,4 +36,8 @@ Route::resource('/tasks' , TaskController::class );
 Route::post('/tasks/Task-Assignees' , [ TaskController::class , 'assignee']);
 Route::resource('/attachments' , AttachmentController::class );
 Route::post('/attachments-up' , [AttachmentController::class , 'update'] );
+Route::resource('/roles' , RoleController::class );
+Route::resource('/roles/managment' , ManagementRoleController::class );
+Route::post('/roles/managment/remove' , [ManagementRoleController::class , 'removeRole'] );
+
 

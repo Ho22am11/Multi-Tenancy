@@ -13,7 +13,7 @@ class AttachmentController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
-
+        if ($user->can('create attachment')) {
         $file = $request->file('file');
         $type = $file->getClientOriginalExtension();
         $file_name = uniqid().'.'.$type;
@@ -28,19 +28,28 @@ class AttachmentController extends Controller
         ]);
 
         return $this->ApiResponse($attachment , 'store attachment successfully' , 201 ) ;
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
     }
 
     
     public function show($id)
     {
+        $user = auth()->user();
+        if ($user->can('show attachment')) {
         $attachment = Attachment::find($id);
         return $this->ApiResponse($attachment , 'show attachment successfully' , 200 ) ;
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
+
     }
 
 
 
     public function update(Request $request )
     {
+        $user = auth()->user();
+        if ($user->can('update attachment')) {
           $attachment = Attachment::find($request->attachment_id);
           $path = 'E:/laragon/www/task_project/storage/files/'.$attachment->name; 
 
@@ -68,6 +77,8 @@ class AttachmentController extends Controller
             ]);
     
             return $this->ApiResponse($attachment , 'store attachment successfully' , 201 ) ;
+        } else {
+            return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
     
             
     }
@@ -75,6 +86,8 @@ class AttachmentController extends Controller
 
     public function destroy($id)
     {
+        $user = auth()->user();
+        if ($user->can('destroy attachment')) {
         $attachment = Attachment::find($id);
         $path = 'E:/laragon/www/task_project/storage/files/'.$attachment->name; 
 
@@ -86,6 +99,8 @@ class AttachmentController extends Controller
             Attachment::destroy($id);
 
         return $this->ApiResponse( null , 'deleted attachment successfully' , 200 ) ;
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
 
     }
 }

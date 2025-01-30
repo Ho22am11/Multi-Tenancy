@@ -14,8 +14,11 @@ class TaskController extends Controller
     public function index()
     {
         $user = auth()->user();
+        if ($user->can('get all task')) {
         $tasks = Task::where('tenant_id' , $user->tenant_id)->get();
         return $this->ApiResponse($tasks , 'get all task successfully' , 201 );
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
 
     }
 
@@ -23,37 +26,60 @@ class TaskController extends Controller
     public function store(TaskRequest $request)
     {
         $user = auth()->user();
+        if ($user->can('create task')) {
         $data = $request->all();
         $data['create_by'] = $user->id ;
         $task = Task::create($data);
         return $this->ApiResponse($task , 'store task successfully' , 201 );
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
+
     }
 
    
     public function show($id)
     {
+        $user = auth()->user();
+        if ($user->can('show task')) {
         $task = Task::find($id);
         return $this->ApiResponse($task , 'show task successfully' , 201 );
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
 
     }
 
     public function update(TaskRequest $request, string $id)
     {
+        $user = auth()->user();
+        if ($user->can('update task')) {
         $task = Task::find($id);
         $task->update($request->all());
         return $this->ApiResponse($task , 'updated task successfully' , 201 );
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
+
     }
 
 
     public function destroy($id)
     {
+        $user = auth()->user();
+        if ($user->can('destroy task')) {
         Task::destroy($id);
         return $this->ApiResponse(null, 'deleted task successfully' , 201 );
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
+
     }
 
 
     public function assignee(Request $request){
+        $user = auth()->user();
+        if ($user->can('assigne user to task')) {
         TaskAssignee::create($request->all());
         return $this->ApiResponse(null, 'Task Assignee successfully' , 201 );
+    } else {
+        return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
+
     }
 }
