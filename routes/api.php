@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TenantsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +30,8 @@ Route::post('/refresh' , [AuthController::class, 'refresh']);
 
 Route::resource('/tenants' , TenantsController::class );
 Route::post('/tenants/user-assignees' , [ TenantsController::class , 'assigne']);
+Route::resource('/tasks' , TaskController::class );
+Route::post('/tasks/Task-Assignees' , [ TaskController::class , 'assignee']);
+Route::resource('/attachments' , AttachmentController::class );
+Route::post('/attachments-up' , [AttachmentController::class , 'update'] );
+
