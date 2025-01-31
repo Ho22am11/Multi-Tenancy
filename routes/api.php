@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\AttachmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ManagementRoleController;
@@ -39,5 +40,7 @@ Route::post('/attachments-up' , [AttachmentController::class , 'update'] );
 Route::resource('/roles' , RoleController::class );
 Route::resource('/roles/managment' , ManagementRoleController::class );
 Route::post('/roles/managment/remove' , [ManagementRoleController::class , 'removeRole'] );
+Route::get('/users/analysis' , [AnalyticsController::class , 'AnalysisUser'] );
+Route::get('/users/analysis/time' , [AnalyticsController::class , 'AnalysisTime'] );
 
 

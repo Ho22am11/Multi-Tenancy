@@ -12,7 +12,7 @@ class ManagementRoleController extends Controller
     use ApiResponseTrait;
     public function store(Request $request){
         $user = auth()->user();
-        if ($user->can('assigne user to role')) {
+         if ($user->can('assigne user to role')) {
         $user = User::find($request->user_id);
         $role = Role::find($request->role_id);
         $user->assignRole($role->name); 

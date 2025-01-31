@@ -13,6 +13,7 @@ class Task extends Model
         'description',
         'state',
         'Priority',
+        'complete_at',
         'Due_Date',
         'tenant_id',
         'create_by',

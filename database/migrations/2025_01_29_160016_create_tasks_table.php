@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('state', [ 1 , 2 , 3]);
             $table->enum('Priority', [ 1 , 2 , 3]);
             $table->date('Due_Date');
+            $table->timestamp('complete_at')->nullable(); 
             $table->foreignId('tenant_id')->nullable()->references('id')->on('tenants');
             $table->foreignId('create_by')->nullable()->references('id')->on('users');
             $table->timestamps();

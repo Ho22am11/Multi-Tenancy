@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Tenant;
+use App\Models\User;
+use GuzzleHttp\Promise\Create;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -43,12 +46,23 @@ class RolePermissionSeeder extends Seeder
             Permission::firstOrCreate(['name' => $permission]);
         }
 
+        Tenant::create(['name' => 'public']);
+
         // إنشاء الأدوار وربط الصلاحيات بها
         $adminRole = Role::firstOrCreate([
             'name' => 'admin',
             'tenant_id' => 1 ,
         ]);
         $adminRole->givePermissionTo($permissions);
+
+        $user = User::create([
+            'name' => 'hossam' ,
+            'email' => 'hossam@gmail.com' ,
+            'password' => bcrypt('123456'),
+        
+        ]);
+
+        $user->assignRole('admin');
 
        
 }

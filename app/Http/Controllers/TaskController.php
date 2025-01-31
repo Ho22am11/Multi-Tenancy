@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use App\Models\TaskAssignee;
+use App\Models\TaskHistor;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 
@@ -53,8 +54,26 @@ class TaskController extends Controller
         $user = auth()->user();
         if ($user->can('update task')) {
         $task = Task::find($id);
-        $task->update($request->all());
-        return $this->ApiResponse($task , 'updated task successfully' , 201 );
+        TaskHistor::create([
+            'task_id' => $task->id ,
+            'changed_by' => $user->id , 
+            'old_value' => $task->state ,
+            'new_value' => $request->state
+        ]);
+        if ($request->state == 3){
+            $data = $request->all();
+            $data['complete_at'] = now();
+            $task->update($data);
+            return $this->ApiResponse($data , 'updated task successfully' , 201 );
+
+        }
+        else{
+            $task->update($request->all());
+            return $this->ApiResponse($task , 'updated task successfully' , 201 );
+
+        }
+       
+       
     } else {
         return $this->ApiResponse( null , 'you do not have permission  ' , 400 ); } 
 

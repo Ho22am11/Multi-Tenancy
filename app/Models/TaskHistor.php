@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TaskAssignee extends Model
+class TaskHistor extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'task_id',
-        'user_id',
+        'changed_by',
+        'old_value' ,
+        'new_value'
     ];
-
-    public function task()
-    {
-        return $this->hasMany(TaskAssignee::class);
-    }
-
 }
